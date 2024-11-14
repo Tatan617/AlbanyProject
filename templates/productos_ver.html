@@ -1,0 +1,15 @@
+{%include 'header2.html'%}
+    <div class="container mt-5">
+        <div class="alert alert-success display-1">Productos</div>
+        <table class="table table-striped">
+          <tr><td>ID</td><td>{{productos.id}}</td></tr>
+          <tr><td>Nombre</td><td>{{productos.nombre}}</td></tr>
+          <tr><td>Categoria</td><td>{{productos.categoria}}</td></tr>
+          <tr><td>Imagen</td><td>{{productos.imagen}}</td></tr>
+          <tr><td>Detalle</td><td>{{productos.detalle}}</td></tr>
+          <tr><td>Precio</td><td>{{productos.precio}}</td></tr>
+          <tr><td>Disponible</td><td>{{productos.disponible}}</td></tr>
+        </table>
+       <a href="../productos_gestion/" class="btn btn-success">Volver</a>
+    </div>
+{%include 'footer.html'%}
