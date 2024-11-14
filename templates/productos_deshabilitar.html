@@ -1,0 +1,11 @@
+{%include 'header2.html'%}
+<div class="container mt-5">
+    <h1>Deshabilitar Clases</h1>
+    <h3>¿Desea deshabilitar el siguiente Producto?:<b>{{ productos.nombre }}</b></h3>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Deshabilitar</button>
+        <a href="../productos_gestion/" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% include 'footer.html' %}
