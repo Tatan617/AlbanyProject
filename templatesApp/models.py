@@ -19,9 +19,10 @@ class Productos(models.Model):
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
     disponible = models.BooleanField(default=True)
+    
 
     def __str__(self):
-        return self.name
+        return self.nombre
     
     class Meta:
         db_table = 'productos'

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Productos
 
 # Create your views here.
 
@@ -13,3 +14,8 @@ def Register(request):
 
 def Carrito(request):
     return render(request, 'carritodecompras.html')
+
+def lista_productos(request):
+    productos = Productos.objects.all()
+    data = {'productos': productos}
+    return render(request, "index.html", data)
