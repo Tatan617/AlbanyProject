@@ -19,11 +19,9 @@ class Productos(models.Model):
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
     disponible = models.BooleanField(default=True)
-<<<<<<< HEAD
-    
-=======
     habilitado = models.BooleanField(default=True)
->>>>>>> a1a103deaa12993768684d7e9a94dc4a6d9f402b
+    stock = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.nombre
@@ -33,3 +31,22 @@ class Productos(models.Model):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['id']
+
+class Usuario(models.Model):
+    rut = models.CharField(max_length=10)
+    nombre = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50)
+    correo = models.CharField(max_length=50)
+    contraseña = models.CharField(max_length=12)
+    
+
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        db_table = 'usuario'
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+        ordering = ['rut']
+
+    

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 """
 URL configuration for Albany project.
 
@@ -16,19 +16,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-=======
->>>>>>> a1a103deaa12993768684d7e9a94dc4a6d9f402b
+
+
 from django.urls import path
 from templatesApp import views
 
 urlpatterns = [
-<<<<<<< HEAD
+
     path('admin/', admin.site.urls),
-    path('', Index),
-    path('login/', Login),
-    path('register/', Register),
-    path('buycar/', Carrito)
-=======
     path('', views.Index),
     path('indexadmin/', views.Index2),
     path('login/', views.Login),
@@ -43,5 +38,5 @@ urlpatterns = [
     path('agregar_categoria/', views.Agregar_Categoria),
     path('ver_categoria/<int:id>', views.Ver_Categoria),
     path('actualizar_categoria/<int:id>', views.Actualizar_Categoria),
->>>>>>> a1a103deaa12993768684d7e9a94dc4a6d9f402b
+
 ]

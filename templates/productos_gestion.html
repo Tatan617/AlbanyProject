@@ -19,7 +19,7 @@
             </thead>
             <tbody>               
                 {%for prod in productos%}
-                    {%if productos.habilitado == true%}
+                    
                         <tr>
                             <td>{{prod.id}}</td>
                             <td>{{prod.nombre}}</td>
@@ -44,7 +44,7 @@
                             </a>
                             </td>
                         </tr>
-                    {%endif%}
+                    
                 {%endfor%}
             </tbody>
          </table>
