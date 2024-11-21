@@ -17,7 +17,8 @@ Including another URLconf
 """
 from django.contrib import admin
 
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from templatesApp import views
 
@@ -39,4 +40,4 @@ urlpatterns = [
     path('ver_categoria/<int:id>', views.Ver_Categoria),
     path('actualizar_categoria/<int:id>', views.Actualizar_Categoria),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
