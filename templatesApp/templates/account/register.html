@@ -1,0 +1,26 @@
+
+<div class="container">
+
+  
+  <div class="colspan">
+
+      <h1>Crea una Cuenta</h1>
+      <p>Porfavor registrate con el siguiente formulrio: </p>
+      <div class="login-form">
+
+        <form method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {{ form.username.errors }}
+          <input type="text" name="username" class="form-control" placeholder="Username">
+          {{ form.password1.errors }}
+          <input type="password" name="password" class="form-control" placeholder="Password">
+          {{ form.password2.errors }}
+          <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+          <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
+        </form>
+      </div>
+    </div>
+  
+
+</div>

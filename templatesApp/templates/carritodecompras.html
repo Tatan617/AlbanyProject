@@ -1,5 +1,9 @@
-{%include 'header.html'%}
 {% load static %}
+{% if request.user.first_name == 'Vendedora' %}
+    {%include 'header2.html'%}
+{%else%}
+    {%include 'header.html'%}
+{%endif%}
 <div class="container px-3 my-5 clearfix">
     <div class="card">
         <div class="card-header">

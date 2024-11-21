@@ -10,18 +10,14 @@
     {% else %}
       <p>
         Use el siguiente formulario
-        Si no tienes cuenta crea una aquí <a href="">Registrarse</a>.
+        Si no tienes cuenta crea una aquí <a href="{% url 'register' %}">Registrarse</a>.
       </p>
     {% endif %}
     
     <div class="colspan">
       <form action="{% url 'login' %}" method="post">
-        {% load widget_tweaks %}
-        {% for field in form %}
-          {{field.label_tag}}
-          {% render_field field class+="input mt-2" %}
-        {% endfor %}
         {% csrf_token %}
+        {{ form.as_p }}
         <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
         <input type="hidden" name="next" value="{{ next }}" />
       </form>

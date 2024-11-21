@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from templatesApp.models import Productos, Categoria
-from .forms import ProductosForm, LoginForm, CategoriasForm
+from .forms import ProductosForm, LoginForm, CategoriasForm, UserRegisterForm
 
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -34,24 +34,42 @@ def User_login(request):
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
     
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegisterForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(
+                user_form.cleaned_data['password']
+            )
+            new_user.save()
+            return render(request,
+                          'account/register_done.html',
+                          {'new_user':new_user})
+    else:
+        user_form = UserRegisterForm()
+    return render(request, 
+                      'account/register.html',
+                      {'user_form': user_form})
+
 @login_required
 def Index(request):
     productos = Productos.objects.all()
     data = {'productos': productos}
     return render(request, 'index.html', data)
 
-@login_required
-def Index2(request):
-    return render(request,"index2.html")
 
+@login_required
 def Carrito(request):
     return render(request, 'carritodecompras.html')
 
+@login_required
 def Gestionar_Productos(request):
     productos=Productos.objects.all()
     data={'productos':productos}
     return render(request, 'productos_gestion.html',data)
 
+@login_required
 def Agregar_Producto(request):    
     if request.method=='POST':
         form=ProductosForm(request.POST, request.FILES)
@@ -69,23 +87,25 @@ def Agregar_Producto(request):
     data={'form':form,'titulo':'Agregar Productos'}
     return render(request,'productos_save.html',data)
 
+@login_required
 def Ver_Producto(request,id):
     productos=Productos.objects.get(id=id)
     data={"productos":productos}
     return render(request,'productos_ver.html',data)
 
+@login_required
 def Actualizar_Producto(request,id):
     productos=Productos.objects.get(id=id)
     form=ProductosForm(instance=productos)
     if request.method=="POST":
-        form=ProductosForm(request.POST,instance=productos)
+        form=ProductosForm(request.POST,request.FILES,instance=productos)
         if form.is_valid():
             form.save()
         return Gestionar_Productos(request)
     data={'form':form,'titulo':'Actualizar Producto'}
     return render(request,'productos_save.html',data)
 
-
+@login_required
 def Deshabilitar_Producto(request,id):
     try:
         productos = Productos.objects.get(id=id)
@@ -98,11 +118,13 @@ def Deshabilitar_Producto(request,id):
     
     return render(request, 'productos_deshabilitar.html', {'productos': productos})
 
+@login_required
 def Gestionar_Categorias(request):
     categorias=Categoria.objects.all()
     data={'categorias':categorias}
     return render(request, 'categoria_gestion.html',data)
 
+@login_required
 def Agregar_Categoria(request):
     form=CategoriasForm()
     if request.method=='POST':
@@ -113,11 +135,13 @@ def Agregar_Categoria(request):
     data={'form':form,'titulo':'Agregar Categorias'}
     return render(request,'categorias_save.html',data)
 
+@login_required
 def Ver_Categoria(request,id):
     categorias=Categoria.objects.get(id=id)
     data={"categorias":categorias}
     return render(request,'categorias_ver.html',data)
 
+@login_required
 def Actualizar_Categoria(request,id):
     categorias=Categoria.objects.get(id=id)
     form=CategoriasForm(instance=categorias)

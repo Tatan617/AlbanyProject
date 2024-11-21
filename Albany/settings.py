@@ -15,8 +15,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'templatesApp',
-    'widget_tweaks',
-    
 ]
 
 MIDDLEWARE = [
@@ -63,7 +61,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD':'',
         'HOST':'localhost',
-        'PORT':'3306',
+        'PORT':'3307',
     }
 }
 
@@ -110,14 +108,14 @@ STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static')]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-<<<<<<< Updated upstream
+
 import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DATA_UPLOAD_MAX_MEMORY_SIZE = None 
-=======
+
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
->>>>>>> Stashed changes
+

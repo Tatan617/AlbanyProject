@@ -1,43 +1,40 @@
-{%include 'header.html'%}
+{% if request.user.first_name == 'Vendedora' %}
+    {%include 'header2.html'%}
+{%else%}
+    {%include 'header.html'%}
+{%endif%}
 {% load static %}
-<div">
-        <div >
-            <div>
-                <img src="{%static "img/calzado1.jpg"%}" class="d-block w-35" alt="asd">
-            </div>
-        </div>
-
-        
-    
-
-    
-        <div class="row" style="margin: 10px;">
-            <div class="col-20">
-                <div class="row">
-                    {%if productos%}
-                        {%for producto in productos%}
-                            <div class="col-md-6 col-sm-12 col-lg-3">
-                                <div class="card" style="width: 100%;">
-                                   
-                                    <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
-                                  
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ producto.nombre }}</h5>
-                                        <p class="card-text">{{ producto.detalle }}</p>
-                                        <a href="#" class="btn btn-primary">Añadir al carrito</a>
+    <div">        
+            <div class="row" style="margin: 10px;">
+                <div class="col-20">
+                    <div class="row">
+                        {%if productos%}
+                            {%for producto in productos%}
+                                <div class="col-md-6 col-sm-12 col-lg-3">
+                                    <div class="card" style="width: 100%;">
+                                    
+                                        <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
+                                    
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                                            <p class="card-text">{{ producto.detalle }}</p>
+                                            <p class="card-text">{{ producto.categoria }}</p>
+                                            <p class="card-text">${{ producto.precio }}</p>
+                                            <p class="card-text">Stock: {{ producto.stock }}</p>
+                                            <a href="/account/buycar" class="btn btn-primary">Añadir al carrito</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {%endfor%}
-                    {% else %}
-                        <p>No hay productos disponibles.</p>
-                    {% endif %}
+                            {%endfor%}
+                        {% else %}
+                            <p>No hay productos disponibles.</p>
+                        {% endif %}
+                    </div>
                 </div>
+                
             </div>
-            
-        </div>
-    
+        
 
 
-</div>    
+    </div> 
 {%include 'footer.html'%}  
