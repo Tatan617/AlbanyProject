@@ -1,0 +1,33 @@
+{%include 'header.html'%}
+
+<div class="container">
+  <div class="colspan">
+    <h1>Log-in</h1>
+    {% if form.errors %}
+      <p>
+        Usuario y contraseña incorrectos, intente nuevamente.
+      </p>
+    {% else %}
+      <p>
+        Use el siguiente formulario
+        Si no tienes cuenta crea una aquí <a href="">Registrarse</a>.
+      </p>
+    {% endif %}
+    
+    <div class="colspan">
+      <form action="{% url 'login' %}" method="post">
+        {% load widget_tweaks %}
+        {% for field in form %}
+          {{field.label_tag}}
+          {% render_field field class+="input mt-2" %}
+        {% endfor %}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+    </div>
+</div>
+
+</div>
+
+{%include 'footer.html'%}

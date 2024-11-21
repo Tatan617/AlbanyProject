@@ -27,13 +27,6 @@ class CategoriasForm(forms.ModelForm):
             'nombre',
         ]
 
-class UsuarioForm(forms.ModelForm):
-    class Meta:
-        model=Usuario
-        fields = [
-            'rut',
-            'nombre',
-            'apellido',
-            'correo',
-            'contraseña'
-        ]
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)

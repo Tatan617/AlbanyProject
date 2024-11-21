@@ -7,36 +7,42 @@ from .models import Productos
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from templatesApp.models import Productos, Categoria, Usuario
-from .forms import ProductosForm, UsuarioForm, CategoriasForm
+from templatesApp.models import Productos, Categoria
+from .forms import ProductosForm, LoginForm, CategoriasForm
 
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
+def User_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request,
+                                username = cd['username'],
+                                password = cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse('Usuario Autenticado')
+                else:
+                    return HttpResponse('El usuario no está activo')
+            else:
+                return HttpResponse('La informacion no es correcta')
+    else:
+        form = LoginForm()
+        return render(request, 'registration/login.html', {'form': form})
+    
+@login_required
 def Index(request):
     productos = Productos.objects.all()
     data = {'productos': productos}
     return render(request, 'index.html', data)
 
+@login_required
 def Index2(request):
     return render(request,"index2.html")
-
-def Login(request):
-    return render(request, 'login.html')
-
-def Register(request, rut):
-    form=UsuarioForm()
-    usuarios=Usuario.objects.get(rut=rut)
-    data={'usuarios':usuarios}
-    if request.method=='POST':
-        form=UsuarioForm(request.POST)
-        #if form.is_valid():
-            #if usuarios.rut:
-                #messages.error(request, "Este RUT ya está registrado")
-                #return Login(request)
-            #else:
-        form.save()
-        return Login(request)
-    data={'form':form,'titulo':'Registrarse'}
-    return render(request, 'register.html', data)
 
 def Carrito(request):
     return render(request, 'carritodecompras.html')

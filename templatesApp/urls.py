@@ -1,23 +1,12 @@
-from django.contrib import admin
-<<<<<<< Updated upstream
-
-from django.conf import settings
-from django.conf.urls.static import static
-from django.urls import path
-=======
 from django.urls import path, include
->>>>>>> Stashed changes
-from templatesApp import views
-from django.conf import settings
-from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-<<<<<<< Updated upstream
-    path('', views.Index),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', views.Index, name='index'),
     path('indexadmin/', views.Index2),
-    path('login/', views.Login),
-    path('register/', views.Register),
     path('buycar/', views.Carrito),
     path('productos_gestion/', views.Gestionar_Productos),
     path('agregar_producto/', views.Agregar_Producto),
@@ -28,9 +17,4 @@ urlpatterns = [
     path('agregar_categoria/', views.Agregar_Categoria),
     path('ver_categoria/<int:id>', views.Ver_Categoria),
     path('actualizar_categoria/<int:id>', views.Actualizar_Categoria),
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-=======
-    path('account/', include('templatesApp.urls')),
 ]
->>>>>>> Stashed changes
