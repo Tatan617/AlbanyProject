@@ -1,5 +1,7 @@
 from django import forms
 from .models import Productos, Categoria
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class ProductosForm(forms.ModelForm):
@@ -11,6 +13,7 @@ class ProductosForm(forms.ModelForm):
             'imagen',
             'detalle',
             'precio',
+            'marca',
             'disponible',
             'stock',
         ]
@@ -33,18 +36,27 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(label='Password',
-                               widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat Password',
-                               widget=forms.PasswordInput)
+class FormRegistro(UserCreationForm):
+    rut = forms.CharField(
+        max_length=12,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ej: 12345678-9',
+            'oninput': 'formatRut(this)'
+        })
+    )
     
     class Meta:
         model = User
-        fields = ['username','first_name','email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'rut', 'password1', 'password2']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            return forms.ValidationError('Las contraseñas no coinciden')
-        return cd['password2']
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user

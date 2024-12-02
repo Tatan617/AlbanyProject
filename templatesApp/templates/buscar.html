@@ -10,6 +10,7 @@
             <form method="get">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
+                        <h3>Buscar producto </h3>
                         <input type="text" class="form-control" placeholder="Buscar..." name="buscar">
                         <span class="input-group-list">
                             <i class="icon icon-search"></i>
@@ -30,9 +31,7 @@
                             {%for producto in productos%}
                                 <div class="col-md-6 col-sm-12 col-lg-3">
                                     <div class="card" style="width: 100%;">
-                                    
                                         <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
-                                    
                                         <div class="card-body">
                                             <h5 class="card-title">{{ producto.nombre }}</h5>
                                             <p class="card-text">{{ producto.detalle }}</p>
@@ -51,8 +50,5 @@
                 </div>
                 
             </div>
-        
-
-
     </div> 
 {%include 'footer.html'%}  

@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
@@ -18,6 +21,7 @@ class Productos(models.Model):
     imagen = models.ImageField(upload_to='imgproduct/', blank=True, null=True)
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
+    marca = models.CharField(max_length=20)
     disponible = models.BooleanField(default=True)
     habilitado = models.BooleanField(default=True)
     stock = models.IntegerField(default=0)
@@ -49,4 +53,12 @@ class Usuario(models.Model):
         verbose_name_plural = 'Usuarios'
         ordering = ['rut']
 
-    
+
+@receiver(post_save, sender=User)
+def crear_perfil_usuario(sender, instance, created, **kwargs):
+    if created:
+        Usuario.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def guardar_perfil_usuario(sender, instance, **kwargs):
+    instance.usuario.save()

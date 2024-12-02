@@ -1,5 +1,5 @@
 {% load static %}
-{% if request.user.first_name == 'Vendedora' %}
+{% if request.user.is_superuser == 1 %}
     {%include 'header2.html'%}
 
 

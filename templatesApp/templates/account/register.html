@@ -1,26 +1,78 @@
-
-<div class="container">
-
-  
-  <div class="colspan">
-
-      <h1>Crea una Cuenta</h1>
-      <p>Porfavor registrate con el siguiente formulrio: </p>
-      <div class="login-form">
-
-        <form method="post">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-          {{ form.username.errors }}
-          <input type="text" name="username" class="form-control" placeholder="Username">
-          {{ form.password1.errors }}
-          <input type="password" name="password" class="form-control" placeholder="Password">
-          {{ form.password2.errors }}
-          <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
-          <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
-        </form>
-      </div>
+{% load static %}
+{% include 'header.html' %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Registrate</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action= "{% url 'register' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                               {{form.username.label_tag}}
+                               {{form.username}}
+                                {% if form.username.errors%}
+                                    <div class ="text-danger">{{form.username.errors}}</div>
+                                {% endif %} 
+                            </div>
+                            <div class="form-group">
+                               {{form.first_name.label_tag}}
+                               {{form.first_name}}
+                                {% if form.first_name.errors%}
+                                    <div class ="text-danger">{{form.first_name.errors}}</div>
+                                {% endif %} 
+                            </div>
+                            <div class="form-group">
+                                {{form.last_name.label_tag}}
+                                {{form.last_name}}
+                                 {% if form.last_name.errors%}
+                                     <div class ="text-danger">{{form.last_name.errors}}</div>
+                                 {% endif %} 
+                             </div>
+              
+                            <div class="form-group">  
+                                {{form.email.label_tag}}
+                                {{form.email}}
+                                {% if form.email.errors%}
+                                    <div class="text-danger">{{form.email.errors}}</div>
+                                {% endif %}   
+                            </div>
+                            <div class="form-group">
+                                {{ form.password1.label_tag }}
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger">{{ form.password1.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password2.label_tag }}
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger">{{ form.password2.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <p>¿Ya tienes una cuenta? <a href="../PortalLogin">Inicia sesion aquí</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  
 
-</div>
+<script>
+function formatRut(input) {
+    let value = input.value.replace(/[^\d]/g, '');
+    if (value.length > 1) {
+        value = value.slice(0, -1) + '-' + value.slice(-1);
+    }
+    input.value = value;
+}
+</script>
+{% include 'footer.html' %}

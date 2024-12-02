@@ -1,14 +1,14 @@
 from django.contrib import messages
 from django.shortcuts import render
 from .models import Productos
-
+from django.db.models import Q, Sum, F
 # Create your views here.
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
 from templatesApp.models import Productos, Categoria
-from .forms import ProductosForm, LoginForm, CategoriasForm, UserRegisterForm
+from .forms import ProductosForm, LoginForm, CategoriasForm, FormRegistro
 
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -34,23 +34,22 @@ def User_login(request):
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
     
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegisterForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(
-                user_form.cleaned_data['password']
-            )
-            new_user.save()
-            return render(request,
-                          'account/register_done.html',
-                          {'new_user':new_user})
+def Registro(request):
+    if request.method == "POST":
+        form = FormRegistro(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.password = form.cleaned_data['password1']
+            user.save()
+            user.usuario.save()
+            messages.success(request, "Registro Exitoso. Puedes iniciar sesión ahora.")
+            return redirect('../login')
+        else:
+            messages.error(request, "Por favor, corrige los errores en el formulario.")
     else:
-        user_form = UserRegisterForm()
-    return render(request, 
-                      'account/register.html',
-                      {'user_form': user_form})
+        form = FormRegistro()
+
+    return render(request, 'account/register.html', {"form": form})
 
 @login_required
 def Index(request):
@@ -152,5 +151,19 @@ def Actualizar_Categoria(request,id):
         return Gestionar_Categorias(request)
     data={'form':form,'titulo':'Actualizar Categoria'}
     return render(request,'categorias_save.html',data)
+
+@login_required
+def Buscar_producto(request):
+    queryset = request.GET.get('buscar')
+    productos  = Productos.objects.all()
+    data={'productos':productos}
+    if queryset:
+        productos = Productos.objects.filter(
+            Q(nombre = queryset)|
+            Q(marca = queryset)
+            ).distinct()
+        data={'productos':productos}
+    return render(request,'buscar.html',data)
+
 
 
