@@ -65,7 +65,16 @@ def Index(request):
         data={'productos':productos}
     return render(request,'index.html',data)
 
-
+def Mostrar_Producto(request,id):
+    productos=Productos.objects.get(id=id)
+    form=MostrarProductosForm(instance=productos)
+    if request.method=="POST":
+        form=MostrarProductosForm(request.POST,request.FILES,instance=productos)
+        if form.is_valid():
+            form.save()
+        return Index(request)
+    data={'form':form,'titulo':'Actualizar Disponibilidad'}
+    return render(request,'mostrar_producto.html',data)
 
 def Carrito_de_Compras(request):
     productos = Productos.objects.all()

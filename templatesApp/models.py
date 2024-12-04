@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
@@ -34,8 +35,8 @@ class Productos(models.Model):
     imagen = models.ImageField(upload_to='imgproduct/', blank=True, null=True)
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
-    stock = models.IntegerField(default=0)
-
+    stock = models.PositiveIntegerField(default=0)
+    mostrar = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.nombre
@@ -45,6 +46,14 @@ class Productos(models.Model):
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['id']
+    
+    def clean(self):
+        if self.stock < 0:
+            raise ValidationError("El stock no puede ser negativo.")
+        
+    def clean(self):
+        if self.mostrar < 0:
+            raise ValidationError("El valor mostrar no puede ser negativo.")
 
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

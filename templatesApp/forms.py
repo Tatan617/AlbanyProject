@@ -3,6 +3,7 @@ from .models import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class ProductosForm(forms.ModelForm):
     class Meta:
@@ -18,6 +19,16 @@ class ProductosForm(forms.ModelForm):
             'stock',
         ]
 
+class MostrarProductosForm(forms.ModelForm):
+    class Meta:
+        model = Productos
+        fields = ['mostrar']
+
+    def clean_mostrar(self):
+        mostrar = self.cleaned_data.get('mostrar')
+        if mostrar not in [0, 1]:
+            raise forms.ValidationError("El valor debe ser 0 o 1.")
+        return mostrar
 
 class CategoriasForm(forms.ModelForm):
     class Meta:
