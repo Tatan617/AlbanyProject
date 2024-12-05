@@ -117,5 +117,5 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGOUT_URL = 'l/'
 

@@ -28,21 +28,23 @@
                     <div class="row">
                         {%if productos%}
                             {%for producto in productos%}
-                                <div class="col-md-6 col-sm-12 col-lg-3">
-                                    <div class="card" style="width: 100%;">
-                                    
-                                        <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
-                                    
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ producto.nombre }}</h5>
-                                            <p class="card-text">{{ producto.detalle }}</p>
-                                            <p class="card-text">{{ producto.categoria }}</p>
-                                            <p class="card-text">${{ producto.precio }}</p>
-                                            <p class="card-text">Stock: {{ producto.stock }}</p>
-                                            <a href="/account/buycar" class="btn btn-primary">Añadir al carrito</a>
+                                {% if producto.stock != 0 %}
+                                    <div class="col-md-6 col-sm-12 col-lg-3">
+                                        <div class="card" style="width: 100%;">
+                                        
+                                            <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
+                                        
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ producto.nombre }}</h5>
+                                                <p class="card-text">{{ producto.detalle }}</p>
+                                                <p class="card-text">{{ producto.categoria }}</p>
+                                                <p class="card-text">${{ producto.precio }}</p>
+                                                <p class="card-text">Stock: {{ producto.stock }}</p>
+                                                <a href="/account/buycar" class="btn btn-primary">Añadir al carrito</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {%endfor%}
                         {% else %}
                             <p>No hay productos disponibles.</p>

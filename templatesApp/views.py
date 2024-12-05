@@ -7,51 +7,29 @@ from django.db.models import Q, Sum, F
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.mail import send_mail
 from django.conf import settings
-from templatesApp.models import Productos, Categoria
-from .forms import ProductosForm, LoginForm, CategoriasForm, FormRegistro
-
+from templatesApp.models import *
+from .forms import *
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-def User_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request,
-                                username = cd['username'],
-                                password = cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Usuario Autenticado')
-                else:
-                    return HttpResponse('El usuario no está activo')
-            else:
-                return HttpResponse('La informacion no es correcta')
+def portal_login(request):
+    if request.method == 'GET':
+        return render(request, 'login.html',{
+            'form': UserCreationForm
+        })
     else:
-        form = LoginForm()
-        return render(request, 'registration/login.html', {'form': form})
-    
-def Registro(request):
-    if request.method == "POST":
-        form = FormRegistro(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.password = form.cleaned_data['password1']
+        if request.POST['password1'] == request.POST['password2']:
+            user = User.objects.create_user(username=request.POST['username'], 
+                                     password=request.POST['password1'])
             user.save()
-            user.usuario.save()
-            messages.success(request, "Registro Exitoso. Puedes iniciar sesión ahora.")
-            return redirect('../login')
-        else:
-            messages.error(request, "Por favor, corrige los errores en el formulario.")
-    else:
-        form = FormRegistro()
+    return HttpResponse('No coinciden')
 
-    return render(request, 'account/register.html', {"form": form})
 
-@login_required
+
+
 def Index(request):
     productos = Productos.objects.all()
     data = {'productos': productos}
@@ -62,7 +40,7 @@ def Index(request):
 def Carrito(request):
     return render(request, 'carritodecompras.html')
 
-@login_required
+
 def Gestionar_Productos(request):
     productos=Productos.objects.all()
     data={'productos':productos}
@@ -92,7 +70,7 @@ def Ver_Producto(request,id):
     data={"productos":productos}
     return render(request,'productos_ver.html',data)
 
-@login_required
+
 def Actualizar_Producto(request,id):
     productos=Productos.objects.get(id=id)
     form=ProductosForm(instance=productos)
