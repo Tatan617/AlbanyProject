@@ -27,6 +27,7 @@ urlpatterns = [
     path('ver_marca/<int:id>', views.Ver_Marca),
     path('actualizar_marca/<int:id>', views.Actualizar_Marca),
     path('buscar_producto/',views.Buscar_producto),
+    path('comprar/', views.Comprar, name='compra')
     
 
 ]

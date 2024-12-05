@@ -247,4 +247,12 @@ def Buscar_producto(request):
     return render(request,'index.html',data)
 
 
-
+def Comprar(request):
+    carrito = Carrito(request)
+    for item in carrito.carrito.values():
+        producto = get_object_or_404(Productos, id=item["producto_id"])
+        producto.stock -= item["cantidad"]
+        producto.save()
+    carrito.limpiar()
+    messages.success(request, "Compra realizada con éxito. ¡Gracias por tu pedido!")
+    return redirect('../')

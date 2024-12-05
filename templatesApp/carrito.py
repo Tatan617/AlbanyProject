@@ -22,8 +22,9 @@ class Carrito:
                 "acumulado": producto.precio,
             }
         else:
-            self.carrito[id]["cantidad"]+= 1
-            self.carrito[id]["acumulado"]+= producto.precio
+            if self.carrito[id]["cantidad"] < producto.stock:
+                self.carrito[id]["cantidad"]+= 1
+                self.carrito[id]["acumulado"]+= producto.precio      
         self.guardar_carrito()
 
     def guardar_carrito(self):
@@ -47,3 +48,4 @@ class Carrito:
     def limpiar(self):
         self.session["carrito"] = {}
         self.session.modified = True
+
