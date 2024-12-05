@@ -8,7 +8,7 @@
                         <h2>Registrate</h2>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action= "{% url 'Registro' %}">
+                        <form method="POST" action= "{% url 'register' %}">
                             {% csrf_token %}
                             <div class="form-group">
                                {{form.username.label_tag}}
@@ -64,7 +64,7 @@
                         </form>
                         <hr>
                         <div class="text-center">
-                            <p>¿Ya tienes una cuenta? <a href="../">Inicia sesion aquí</a></p>
+                            <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesion aquí</a></p>
                         </div>
                     </div>
                 </div>

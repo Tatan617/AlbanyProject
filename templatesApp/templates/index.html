@@ -54,7 +54,7 @@
                         {% else %}
                             {% if productos %}
                                 {%for producto in productos%}
-                                    {% if producto.mostrar == 1 %}
+                                    {% if producto.mostrar == 1 and producto.stock != 0 %}
                                         <div class="col-md-6 col-sm-12 col-lg-3">
                                             <div class="card" style="width: 100%;">
                                             

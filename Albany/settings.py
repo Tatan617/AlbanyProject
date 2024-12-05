@@ -62,7 +62,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD':'',
         'HOST':'localhost',
-        'PORT':'3306',
+        'PORT':'3307',
     }
 }
 
@@ -118,5 +118,5 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
-LOGOUT_URL = 'l/'
+LOGOUT_REDIRECT_URL = 'index'
 

@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
+
+
 def Login(request):
     if request.method == "POST":
         form = FormLogin(request.POST)
@@ -38,13 +40,17 @@ def Registro(request):
     if request.method == "POST":
         form = FormRegistro(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.password = form.cleaned_data['password1']
-            user.save()
-            user.perfil.rut = form.cleaned_data.get('rut')
-            user.perfil.save()
-            messages.success(request, "Registro Exitoso. Puedes iniciar sesión ahora.")
-            return redirect('../PortalLogin')
+            rut_ingresado = form.cleaned_data.get('rut')
+            if Perfil.objects.filter(rut=rut_ingresado).exists():
+                messages.error(request, "El rut ya está ingresado. Use otro.")
+            else: 
+                user = form.save(commit=False)
+                user.password = form.cleaned_data['password1']
+                user.save()
+                user.perfil.rut = form.cleaned_data.get('rut')
+                user.perfil.save()
+                messages.success(request, "Registro Exitoso. Puedes iniciar sesión ahora.")
+                return redirect('../PortalLogin')
         else:
             messages.error(request, "Por favor, corrige los errores en el formulario.")
     else:

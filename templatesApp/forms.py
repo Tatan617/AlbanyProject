@@ -17,6 +17,7 @@ class ProductosForm(forms.ModelForm):
             'precio',
             'marca',
             'stock',
+            
         ]
 
 class MostrarProductosForm(forms.ModelForm):

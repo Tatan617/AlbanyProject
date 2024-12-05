@@ -15,21 +15,21 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/account/">Inicio</a>
+                    <a class="nav-link" aria-current="page" href="../">Inicio</a>
                   </li>
                   
                     <li class="nav-item">
-                      <a class="nav-link" href="/account/productos_gestion">Gestionar Productos</a>
+                      <a class="nav-link" href="/productos_gestion">Gestionar Productos</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="/account/categorias_gestion">Gestionar Categorias</a>
+                      <a class="nav-link" href="/categorias_gestion">Gestionar Categorias</a>
                     </li>
                   </ul>
         
 
                   {% if request.user.is_authenticated %}
                     <div class="nav-item" style="margin: 10px">
-                      <a class="nav-link" aria-current="page" href="/account/buycar"><i class="bi bi-cart"></i></a>
+                      <a class="nav-link" aria-current="page" href="/buycar"><i class="bi bi-cart"></i></a>
                     </div>
                   {% endif %}
                   
@@ -43,7 +43,7 @@
                     </form>
 
                   {% else %}
-                    <a href="../PortalLogin">Log-in</a>
+                    <a href="/PortalLogin">Log-in</a>
                   {% endif %}
                 </div>
               </div>

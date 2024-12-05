@@ -26,5 +26,7 @@ urlpatterns = [
     path('agregar_marca/', views.Agregar_Marca),
     path('ver_marca/<int:id>', views.Ver_Marca),
     path('actualizar_marca/<int:id>', views.Actualizar_Marca),
-    path('buscar_producto/',views.Buscar_producto)
+    path('buscar_producto/',views.Buscar_producto),
+    
+
 ]
