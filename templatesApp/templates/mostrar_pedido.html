@@ -1,0 +1,46 @@
+{% if request.user.is_staff == 1 %}
+    {%include 'header2.html'%}
+{%else%}
+    {%include 'header.html'%}
+{%endif%}
+<div class="container mt-5">
+    <center><h1>Detalles del Pedido</h1></center>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id del pedido</th>
+            <th>Total</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>               
+        <tr>
+            <td>{{pedido.id}}</td>
+            <td>${{pedido.total}}</td>
+            <td>{{pedido.fecha}}</td>
+        </tr>
+    </tbody>
+ </table>
+</div>
+<div class="container mt-5">
+ <center><h2>Productos en el Pedido</h2></center>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{%include 'footer.html'%}

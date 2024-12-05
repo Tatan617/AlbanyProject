@@ -110,6 +110,43 @@ def limpiar_carro(request):
     carrito.limpiar()
     return render(request, 'carritodecompras.html')
 
+def Comprar(request):
+    carrito = Carrito(request)
+    total = sum(item["acumulado"] for item in carrito.carrito.values())
+
+    try:
+        rut = request.user.perfil.rut
+    except Perfil.DoesNotExist:
+        messages.error(request, "No se encontró un RUT asociado al usuario.")
+        return redirect('buycar')
+
+    pedido = Pedido.objects.create(total=total)
+    for item in carrito.carrito.values():
+        producto = get_object_or_404(Productos, id=item["producto_id"])
+        producto.stock -= item["cantidad"]
+        producto.save()
+        DetallePedido.objects.create(
+            pedido=pedido,
+            producto=producto,
+            cantidad=item["cantidad"],
+            subtotal=item["acumulado"],
+            rut=rut
+        )
+    carrito.limpiar()
+    messages.success(request, "Compra realizada con éxito. ¡Gracias por tu pedido!")
+    return redirect('mostrar_pedido',pedido_id=pedido.id)
+
+def mostrar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    detalles = DetallePedido.objects.filter(pedido=pedido)
+
+    contexto = {
+        'pedido': pedido,
+        'detalles': detalles
+    }
+
+    return render(request, 'mostrar_pedido.html', contexto)
+
 
 def Gestionar_Productos(request):
     productos=Productos.objects.all()
@@ -247,12 +284,3 @@ def Buscar_producto(request):
     return render(request,'index.html',data)
 
 
-def Comprar(request):
-    carrito = Carrito(request)
-    for item in carrito.carrito.values():
-        producto = get_object_or_404(Productos, id=item["producto_id"])
-        producto.stock -= item["cantidad"]
-        producto.save()
-    carrito.limpiar()
-    messages.success(request, "Compra realizada con éxito. ¡Gracias por tu pedido!")
-    return redirect('../')

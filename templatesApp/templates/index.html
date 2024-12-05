@@ -4,6 +4,13 @@
     {%include 'header.html'%}
 {%endif%}
 {% load static %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div class="container">
     <div class="row">
         <div class="col-md-12 search">
@@ -32,7 +39,7 @@
                                     <div class="col-md-6 col-sm-12 col-lg-3">
                                         <div class="card" style="width: 100%;">
                                         
-                                            
+                                            <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
                                         
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ producto.nombre }}</h5>
@@ -64,7 +71,7 @@
                                         <div class="col-md-6 col-sm-12 col-lg-3">
                                             <div class="card" style="width: 100%;">
                                             
-                                                
+                                                <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
                                             
                                                 <div class="card-body">
                                                     <h5 class="card-title">{{ producto.nombre }}</h5>

@@ -15,8 +15,6 @@ class Carrito:
             self.carrito[id] ={
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
-                #"categoria": producto.categoria,
-                #"marca": producto.marca,
                 "precio": producto.precio,
                 "cantidad": 1,
                 "acumulado": producto.precio,
@@ -48,4 +46,6 @@ class Carrito:
     def limpiar(self):
         self.session["carrito"] = {}
         self.session.modified = True
+
+    
 
