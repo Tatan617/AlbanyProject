@@ -1,0 +1,64 @@
+{% if request.user.is_staff == 1 %}
+    {%include 'header2.html'%}
+{%else%}
+    {%include 'header.html'%}
+{%endif%}
+    <div class="container">
+       <center><h1>Lista de Pedidos</h1></center> 
+       <div class="container">
+            <div class="row">
+                <div class="col-md-12 search">
+                    <form method="get">
+                        <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text" class="form-control" placeholder="Buscar..." name="buscar">
+                                <span class="input-group-list">
+                                    <i class="icon icon-search"></i>
+                                    <button type="submit" class="boton btn-success">Buscar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+        
+                </div>
+            </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Pedido</th>
+                <th>Total</th>
+                <th>Fecha</th>
+                <th>Detalles &amp; Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>${{ pedido.total }}</td>
+                <td>{{ pedido.fecha }}</td>
+                {% for detalle in pedido.detallepedido_set.all %}
+                    <td class="p-4">
+                        <div class="media align-items-center">
+                        
+                        <div class="media-body">
+                            <a href="#" class="d-block text-dark">{{detalle.id}}</a>
+                            <small>
+                            <span class="text-muted">Producto: </span> {{detalle.producto}} &nbsp;
+                            <span class="text-muted">Cantidad: </span> {{detalle.cantidad}} &nbsp;
+                            <span class="text-muted">Cantidad: </span> {{detalle.rut}}
+                            </small>
+                        </div>
+                        </div>
+                    </td>
+                {% endfor %}
+                
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+
+{%include 'footer.html'%}

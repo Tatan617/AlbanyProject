@@ -112,6 +112,9 @@ def limpiar_carro(request):
 
 def Comprar(request):
     carrito = Carrito(request)
+    if not carrito.carrito:
+        messages.error(request, "El carrito está vacío. No puedes realizar una compra.")
+        return redirect('buycar') 
     total = sum(item["acumulado"] for item in carrito.carrito.values())
 
     try:
@@ -147,30 +150,56 @@ def mostrar_pedido(request, pedido_id):
 
     return render(request, 'mostrar_pedido.html', contexto)
 
+def registro_pedidos(request):
+    queryset = request.GET.get('buscar')
+    pedido = Pedido.objects.all()
+    contexto = {'pedidos': pedido}
+    if queryset:
+         pedido = Pedido.objects.filter(
+            Q(total__icontains = queryset)|
+            Q(fecha__icontains = queryset)
+            ).distinct()
+         contexto = {'pedidos': pedido}
+    return render(request,'registro_venta.html',contexto)
+
 
 def Gestionar_Productos(request):
+    queryset = request.GET.get('buscar')
     productos=Productos.objects.all()
     data={'productos':productos}
-    return render(request, 'productos_gestion.html',data)
+    if queryset:
+        productos = Productos.objects.filter(
+            Q(nombre__icontains = queryset)|
+            Q(detalle__icontains = queryset)
+            ).distinct()
+        data={'productos':productos}
+    return render(request,'productos_gestion.html',data)
 
 
 def Agregar_Producto(request):
     if request.method == 'POST':
         form = ProductosForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
         if form.is_valid():
-            producto = form.save(commit=False)
-            if 'imagen' in request.FILES:
-                producto.imagen = request.FILES['imagen']
-            producto.save()
-            return Gestionar_Productos(request)
+            nombre_producto = form.cleaned_data['nombre']
+            
+            # Verificar duplicados por nombre
+            if Productos.objects.filter(nombre=nombre_producto).exists():
+                messages.error(request, f"El producto '{nombre_producto}' ya existe.")
+            else:
+                producto = form.save(commit=False)
+                if 'imagen' in request.FILES:
+                    producto.imagen = request.FILES['imagen']
+                producto.save()
+                messages.success(request, "Producto agregado con éxito.")
+                return redirect('producto_gestion')  # Cambia a la vista correspondiente
         else:
-            print("Error en el formulario:", form.errors)
+            messages.error(request, "Error en el formulario. Por favor, corrige los errores.")
+            print("Errores en el formulario:", form.errors)
     else:
         form = ProductosForm()
 
     data = {'form': form, 'titulo': 'Agregar Productos'}
     return render(request, 'productos_save.html', data)
-
 
 def Ver_Producto(request,id):
     productos=Productos.objects.get(id=id)
@@ -204,8 +233,14 @@ def Deshabilitar_Producto(request,id):
 
 
 def Gestionar_Categorias(request):
+    queryset = request.GET.get('buscar')
     categorias=Categoria.objects.all()
     data={'categorias':categorias}
+    if queryset:
+        categorias=Categoria.objects.filter(
+            Q(nombre__icontains = queryset)
+            )
+        data={'categorias':categorias}
     return render(request, 'categoria_gestion.html',data)
 
 
@@ -214,8 +249,13 @@ def Agregar_Categoria(request):
     if request.method=='POST':
         form=CategoriasForm(request.POST)
         if form.is_valid():
-            form.save()
-        return Gestionar_Categorias(request)
+            nombre_categoria = form.cleaned_data['nombre']
+            if Categoria.objects.filter(nombre=nombre_categoria).exists():
+                messages.error(request, "Ya existe una categoría con este nombre.")
+            else:
+                form.save()
+                messages.success(request, "Categoría agregada con éxito.")
+                return redirect('gestionar_categorias') 
     data={'form':form,'titulo':'Agregar Categorias'}
     return render(request,'categorias_save.html',data)
 
@@ -238,8 +278,14 @@ def Actualizar_Categoria(request,id):
     return render(request,'categorias_save.html',data)
 
 def Gestionar_Marca(request):
+    queryset = request.GET.get('buscar')
     marca=Marca.objects.all()
     data={'marca':marca}
+    if queryset:
+        marca=Marca.objects.filter(
+            Q(nombre__icontains = queryset)
+            )
+        data={'marca':marca}
     return render(request, 'marca_gestion.html',data)
 
 
@@ -248,8 +294,13 @@ def Agregar_Marca(request):
     if request.method=='POST':
         form=MarcaForm(request.POST)
         if form.is_valid():
-            form.save()
-        return Gestionar_Marca(request)
+            nombre_marca = form.cleaned_data['nombre']
+            if Marca.objects.filter(nombre=nombre_marca).exists():
+                messages.error(request, "Ya existe una marca con este nombre.")
+            else:
+                form.save()
+                messages.success(request, "Marca agregada con éxito.")
+                return redirect('gestionar_marca') 
     data={'form':form,'titulo':'Agregar Marca'}
     return render(request,'marca_save.html',data)
 
@@ -282,5 +333,3 @@ def Buscar_producto(request):
             ).distinct()
         data={'productos':productos}
     return render(request,'index.html',data)
-
-

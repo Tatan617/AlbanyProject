@@ -4,6 +4,13 @@
 {%else%}
     {%include 'header.html'%}
 {%endif%}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div class="container px-3 my-5 clearfix">
     <div class="card">
         <div class="card-header">

@@ -20,17 +20,18 @@ urlpatterns = [
     path('ver_producto/<int:id>', views.Ver_Producto),
     path('actualizar_producto/<int:id>', views.Actualizar_Producto),
     path('deshabilitar_producto/<int:id>', views.Deshabilitar_Producto),
-    path('categorias_gestion/', views.Gestionar_Categorias),
+    path('categorias_gestion/', views.Gestionar_Categorias, name='gestionar_categorias'),
     path('agregar_categoria/', views.Agregar_Categoria),
     path('ver_categoria/<int:id>', views.Ver_Categoria),
     path('actualizar_categoria/<int:id>', views.Actualizar_Categoria),
-    path('marca_gestion/', views.Gestionar_Marca),
+    path('marca_gestion/', views.Gestionar_Marca, name='gestionar_marca'),
     path('agregar_marca/', views.Agregar_Marca),
     path('ver_marca/<int:id>', views.Ver_Marca),
     path('actualizar_marca/<int:id>', views.Actualizar_Marca),
     path('buscar_producto/',views.Buscar_producto),
     path('comprar/', views.Comprar, name='compra'),
     path('pedido/<int:pedido_id>', views.mostrar_pedido, name='mostrar_pedido'),
+    path('registro_pedidos/',views.registro_pedidos)
     
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

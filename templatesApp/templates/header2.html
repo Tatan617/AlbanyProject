@@ -17,16 +17,20 @@
                   <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="../">Inicio</a>
                   </li>
-                  
                     <li class="nav-item">
-                      <a class="nav-link" href="/productos_gestion">Gestionar Productos</a>
+                      <a class="nav-link" href="/registro_pedidos">Registros de Ventas</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/categorias_gestion">Gestionar Categorias</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/marca_gestion">Gestionar Marca</a>
-                    </li>
+                    {% if request.user.username == 'ADMIN' %}
+                        <li class="nav-item">
+                          <a class="nav-link" href="/productos_gestion">Gestionar Productos</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/categorias_gestion">Gestionar Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/marca_gestion">Gestionar Marca</a>
+                        </li>
+                    {% endif %}
                   </ul>
         
 

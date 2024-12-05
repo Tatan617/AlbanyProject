@@ -1,4 +1,4 @@
-{% if request.user.is_staff == 1 %}
+{% if request.user.is_staff == 1 and request.user.username == 'ADMIN' %}
     {%include 'header2.html'%}
     <div class="container mt-5">
         <div class="alert alert-success display-1">Marcas</div>

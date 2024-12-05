@@ -1,5 +1,12 @@
-{% if request.user.is_staff == 1 %}
+{% if request.user.is_staff == 1 and request.user.username == 'ADMIN' %}
     {%include 'header2.html'%}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
     <div class="container mt-5">
         <div class="alert alert-success display-1">{{titulo}}</div>
         <form method='POST' enctype="multipart/form-data">

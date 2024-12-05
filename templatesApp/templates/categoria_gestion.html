@@ -1,7 +1,24 @@
 {% load static %}
-{% if request.user.is_staff == 1 %}
+{% if request.user.is_staff == 1 and request.user.username == 'ADMIN' %}
     {%include 'header2.html'%}
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 search">
+                <form method="get">
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control" placeholder="Buscar..." name="buscar">
+                            <span class="input-group-list">
+                                <i class="icon icon-search"></i>
+                                <button type="submit" class="boton btn-success">Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+    
+            </div>
+        </div>
+    </div>
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Categorias</h2>
