@@ -1,4 +1,4 @@
-{% if request.user.is_superuser == 1 %}
+{% if request.user.is_staff == 1 %}
     {%include 'header2.html'%}
 {%else%}
     {%include 'header.html'%}
@@ -26,9 +26,9 @@
             <div class="row" style="margin: 10px;">
                 <div class="col-20">
                     <div class="row">
-                        {%if productos%}
-                            {%for producto in productos%}
-                                {% if producto.stock != 0 %}
+                        {% if request.user.is_staff == 1 %}
+                            {%if productos%}
+                                {%for producto in productos%}
                                     <div class="col-md-6 col-sm-12 col-lg-3">
                                         <div class="card" style="width: 100%;">
                                         
@@ -40,14 +40,43 @@
                                                 <p class="card-text">{{ producto.categoria }}</p>
                                                 <p class="card-text">${{ producto.precio }}</p>
                                                 <p class="card-text">Stock: {{ producto.stock }}</p>
-                                                <a href="/account/buycar" class="btn btn-primary">Añadir al carrito</a>
+                                                {% if request.user.is_authenticated %}
+                                                    <a href="{% url 'add' producto.id %}" class="btn btn-primary">Añadir al carrito</a>
+                                                    <a href="{% url 'mostrar' producto.id %}" class="btn btn-primary">Mostrar</a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
-                                {% endif %}
-                            {%endfor%}
+                                {%endfor%}
+                            {% else %}
+                                <p>No hay productos disponibles.</p>
+                            {% endif %}
                         {% else %}
-                            <p>No hay productos disponibles.</p>
+                            {% if productos %}
+                                {%for producto in productos%}
+                                    {% if producto.mostrar == 1 %}
+                                        <div class="col-md-6 col-sm-12 col-lg-3">
+                                            <div class="card" style="width: 100%;">
+                                            
+                                                <img src="{{ producto.imagen.url }}" style="width: 100%;" class="card-img-top" alt="{{producto.nombre}}">
+                                            
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                                                    <p class="card-text">{{ producto.detalle }}</p>
+                                                    <p class="card-text">{{ producto.categoria }}</p>
+                                                    <p class="card-text">${{ producto.precio }}</p>
+                                                    <p class="card-text">Stock: {{ producto.stock }}</p>
+                                                    {% if request.user.is_authenticated %}
+                                                        <a href="{% url 'add' producto.id %}" class="btn btn-primary">Añadir al carrito</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {%endfor%}
+                            {% else %}
+                                <p>No hay productos disponibles.</p>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

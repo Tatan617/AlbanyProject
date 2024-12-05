@@ -1,4 +1,4 @@
-{% if request.user.is_superuser == 1 %}
+{% if request.user.is_staff == 1 %}
     {%include 'header2.html'%}
 <div class="container mt-5">
     <h1>Deshabilitar Clases</h1>

@@ -4,8 +4,8 @@
 
 
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Categorias</h2>
-        {%if categorias%}
+        <h2 class="text-center mb-4">Marcas</h2>
+        {%if marca%}
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -16,17 +16,17 @@
             </thead>
             <tbody>
                 <tbody>
-                    {%for cat in categorias%}
+                    {%for mar in marca%}
                     <tr>
-                        <td>{{cat.id}}</td>
-                        <td>{{cat.nombre}}</td>
+                        <td>{{mar.id}}</td>
+                        <td>{{mar.nombre}}</td>
                     <td>
-                        <a href="../ver_categoria/{{cat.id}}"
+                        <a href="../ver_marca/{{mar.id}}"
                           class='btn btn-success'><i class="bi bi-eye"></i>
                        </a>
                     </td>
                     <td>
-                        <a href="../actualizar_categoria/{{cat.id}}"
+                        <a href="../actualizar_marca/{{mar.id}}"
                           class='btn btn-warning'><i class="bi bi-pencil"></i>
                        </a>
                     </td>
@@ -35,9 +35,9 @@
             </tbody>
          </table>
         {%else%}
-            <div class="alert alert-info">No Hay Categorias Registradas</div>
+            <div class="alert alert-info">No Hay Marcas Registradas</div>
         {%endif%}
-        <a href="../agregar_categoria/" class="btn btn-success">Agregar Categoria</a>
+        <a href="../agregar_marca/" class="btn btn-success">Agregar Marca</a>
     </div>
 {%else%}
     {%include 'header.html'%}

@@ -1,12 +1,12 @@
 {% if request.user.is_staff == 1 %}
     {%include 'header2.html'%}
     <div class="container mt-5">
-        <div class="alert alert-success display-1">Categorias</div>
+        <div class="alert alert-success display-1">Marcas</div>
         <table class="table table-striped">
-          <tr><td>ID</td><td>{{categorias.id}}</td></tr>
-          <tr><td>Nombre</td><td>{{categorias.nombre}}</td></tr>
+          <tr><td>ID</td><td>{{marcas.id}}</td></tr>
+          <tr><td>Nombre</td><td>{{marcas.nombre}}</td></tr>
         </table>
-       <a href="../categorias_gestion/" class="btn btn-success">Volver</a>
+       <a href="../marca_gestion/" class="btn btn-success">Volver</a>
     </div>
 {%else%}
     {%include 'header.html'%}

@@ -40,6 +40,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'templatesApp.context_processor.total_carrito',
             ],
         },
     },
@@ -61,7 +62,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD':'',
         'HOST':'localhost',
-        'PORT':'3307',
+        'PORT':'3306',
     }
 }
 
