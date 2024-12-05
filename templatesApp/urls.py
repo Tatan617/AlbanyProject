@@ -13,7 +13,7 @@ urlpatterns = [
     path('eliminar/<int:producto_id>', views.eliminar_del_carro, name="del"),
     path('restar/<int:producto_id>', views.restar_del_carro, name="res"),
     path('limpiar/', views.limpiar_carro, name="clean"),
-    path('productos_gestion/', views.Gestionar_Productos),
+    path('productos_gestion/', views.Gestionar_Productos, name='producto_gestion'),
     path('agregar_producto/', views.Agregar_Producto),
     path('ver_producto/<int:id>', views.Ver_Producto),
     path('actualizar_producto/<int:id>', views.Actualizar_Producto),
