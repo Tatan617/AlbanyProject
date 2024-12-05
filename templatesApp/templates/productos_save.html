@@ -2,7 +2,7 @@
     {%include 'header2.html'%}
     <div class="container mt-5">
         <div class="alert alert-success display-1">{{titulo}}</div>
-        <form method='POST'>
+        <form method='POST' enctype="multipart/form-data">
           {{form.as_p}}
           {%csrf_token %}
           <input type='submit' class="btn btn-success" value="Guardar">

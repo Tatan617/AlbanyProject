@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render
+
 from .models import *
 from django.db.models import Q, Sum, F
 from .carrito import Carrito
@@ -118,21 +118,21 @@ def Gestionar_Productos(request):
 
 
 def Agregar_Producto(request):
-    if request.method=='POST':
-        form=ProductosForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        form = ProductosForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
         if form.is_valid():
             producto = form.save(commit=False)
             if 'imagen' in request.FILES:
-                print("Archivo de imagen recibido:", request.FILES['imagen'])
                 producto.imagen = request.FILES['imagen']
             producto.save()
             return Gestionar_Productos(request)
         else:
-            print("error", form.errors)
+            print("Error en el formulario:", form.errors)
     else:
         form = ProductosForm()
-    data={'form':form,'titulo':'Agregar Productos'}
-    return render(request,'productos_save.html',data)
+
+    data = {'form': form, 'titulo': 'Agregar Productos'}
+    return render(request, 'productos_save.html', data)
 
 
 def Ver_Producto(request,id):

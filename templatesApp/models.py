@@ -32,12 +32,12 @@ class Productos(models.Model):
     nombre = models.CharField(max_length=100)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     marca = models.ForeignKey(Marca, on_delete=models.CASCADE)
-    imagen = models.ImageField(upload_to='imgproduct/', blank=True, null=True)
+    imagen = models.ImageField(upload_to='imgproduct/', null=True, blank=True)
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
     stock = models.PositiveIntegerField()
     mostrar = models.PositiveIntegerField(default=0)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    
     
     def __str__(self):
         return self.nombre
@@ -53,7 +53,7 @@ class Productos(models.Model):
             raise ValidationError("El stock no puede ser negativo.")
         
     def clean(self):
-        if self.producto.mostrar < 0:
+        if self.mostrar < 0:
             raise ValidationError("El valor mostrar no puede ser negativo.")
         
 class Perfil(models.Model):
