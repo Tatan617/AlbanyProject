@@ -117,7 +117,7 @@ def Gestionar_Productos(request):
     return render(request, 'productos_gestion.html',data)
 
 
-def Agregar_Producto(request):    
+def Agregar_Producto(request):
     if request.method=='POST':
         form=ProductosForm(request.POST, request.FILES)
         if form.is_valid():
@@ -125,7 +125,7 @@ def Agregar_Producto(request):
             if 'imagen' in request.FILES:
                 print("Archivo de imagen recibido:", request.FILES['imagen'])
                 producto.imagen = request.FILES['imagen']
-            producto.save()            
+            producto.save()
             return Gestionar_Productos(request)
         else:
             print("error", form.errors)

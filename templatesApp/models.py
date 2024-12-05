@@ -35,10 +35,10 @@ class Productos(models.Model):
     imagen = models.ImageField(upload_to='imgproduct/', blank=True, null=True)
     detalle = models.TextField(max_length=1000, verbose_name='Información del producto')
     precio = models.FloatField()
-    stock = models.PositiveIntegerField(default=0)
+    stock = models.PositiveIntegerField()
     mostrar = models.PositiveIntegerField(default=0)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     
-
     def __str__(self):
         return self.nombre
     
@@ -53,9 +53,9 @@ class Productos(models.Model):
             raise ValidationError("El stock no puede ser negativo.")
         
     def clean(self):
-        if self.mostrar < 0:
+        if self.producto.mostrar < 0:
             raise ValidationError("El valor mostrar no puede ser negativo.")
-
+        
 class Perfil(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=12, unique=True)
